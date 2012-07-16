@@ -37,7 +37,7 @@ Here's an example of API interaction
     include Parature
 
     # We need the API token when we retrieve data via the API
-    Parature.config host: "www.supportcenteronline.com", account_id: 100, department_id: 4000, token: "apitoken"
+    Parature.config host: "supportcenteronline.com", account_id: 100, department_id: 4000, token: "apitoken"
     tickets = Tickets.all
     
     # Get the next page of tickets
