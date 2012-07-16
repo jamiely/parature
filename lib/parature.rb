@@ -1,14 +1,9 @@
 require "parature/version"
-
-module Parature::DefaultClient
-  def client
-    @client || Parature.default_client 
-  end
-end
-
 require "parature/client"
 require "parature/ticket"
 require "parature/tickets"
+require "parature/ticket_attachment"
+require "parature/history_entry"
 require "parature/util"
 require "parature/ticket_metrics_by_csr"
 
@@ -18,7 +13,7 @@ module Parature
     @default_client = Parature::Client.new options
   end
 
-  def self.default_client
+  def self.client
     @default_client 
   end
 end

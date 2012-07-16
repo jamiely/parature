@@ -34,33 +34,43 @@ Here's an example of API interaction
 
     % pry
     require 'parature'
+    include Parature
 
     # We need the API token when we retrieve data via the API
     Parature.config host: "www.supportcenteronline.com", account_id: 100, department_id: 4000, token: "apitoken"
-    tickets = Parature::Tickets.all
+    tickets = Tickets.all
+    
+    # Get the next page of tickets
+    tickets.next_page
+
+    # Get the first page of tickets from last week
+    Tickets.last_week
+
+    # Get the first page of tickets from last month
+    Tickets.last_month
+
+    # Get the second page of tickets from this week
+    Tickets.this_week.next_page 
 
     # Get all the statuses
     puts tickets.collect &:status
 
-An example of downloading a ticket report from Parature.
+    # Get a single ticket
+    ticket = Ticket.find '99999'
 
-    > pry
-    require 'parature'
-    # Here, user name and password are required inputs because time is not available via the API
-    Parature.config host: "www.supportcenteronline.com", account_id: 100, department_id: 4000, username: "test@example.com", password: "blah"
-    metrics = Parature::TicketMetricsByCSR.new
-    puts metrics.records
-    # Sample output
-    # {:csr=>"Clark Kent", :date_range=>"6/10 - 6/16", :total_time=>"0"}
-    # {:csr=>"Clark Kent", :date_range=>"6/17 - 6/23", :total_time=>"0"}
-    # {:csr=>"Clark Kent", :date_range=>"6/24 - 6/30", :total_time=>"12 day 14 hr"}
-    # {:csr=>"Clark Kent", :date_range=>"7/1 - 7/7", :total_time=>"0"}
-    # {:csr=>"Clark Kent", :date_range=>"7/8 - 7/10", :total_time=>"0"}
-    # {:csr=>"Jamie Ly", :date_range=>"6/10 - 6/16", :total_time=>"0"}
-    # {:csr=>"Jamie Ly", :date_range=>"6/17 - 6/23", :total_time=>"0"}
-    # {:csr=>"Jamie Ly", :date_range=>"6/24 - 6/30", :total_time=>"0"}
-    # {:csr=>"Jamie Ly", :date_range=>"7/1 - 7/7", :total_time=>"30 day 20 hr "}
-    # {:csr=>"Jamie Ly", :date_range=>"7/8 - 7/10", :total_time=>"0"}
+    # Get history information
+    ticket.history
+
+    # Get only history with time spent
+    ticket.history_with_time
+
+    # Get only history with csrs associated
+    ticket.history_with_csr
+
+    # Do the same for all tickets
+    tickets.history
+    tickets.history_with_time
+    tickets.history_with_csr
     
 
 ## Contributing

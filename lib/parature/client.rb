@@ -2,7 +2,8 @@ require 'rest_client'
 require 'mechanize'
 require 'json'
 
-class Parature::Client
+module Parature
+class Client
   attr_accessor :output_format
   attr_reader :host
 
@@ -38,13 +39,13 @@ class Parature::Client
     @logged_in = true
   end
 
-  def make_api_request(*what)
+  def make_api_request_with_params(*what, options)
     data = what.join("/")
     url = "https://#{@host}/api/v1/#{@account_id}/#{@department_id}/#{data}"
     params = {
       _output_: @output_format,
       _token_: @token
-    }
+    }.merge(options)
 
     response = RestClient.get url, {params: params}
 
@@ -52,5 +53,13 @@ class Parature::Client
     normalized_response = response[3..-1]
     JSON.parse normalized_response
   end
+  def make_api_request(*what)
+    make_api_request_with_params *what, {}
+  end
+
+  def get_ticket(id)
+    Ticket.find id
+  end
+end
 end
 

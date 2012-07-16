@@ -1,8 +1,6 @@
 require 'parature/util'
 
 class Parature::TicketMetricsByCSR
-  include Parature::DefaultClient
-
   def self.to_stat_str(sym)
     case sym
     when :total_time
@@ -42,8 +40,8 @@ class Parature::TicketMetricsByCSR
   def load
     return @html_table unless @html_table.nil?
 
-    client.login
-    report_page = client.mechanize.post "https://#{client.host}/ics/metrics/metricsTicketCSR.asp",
+    Parature.client.login
+    report_page = Parature.client.mechanize.post "https://#{Parature.client.host}/ics/metrics/metricsTicketCSR.asp",
       'statShort' => self.class.to_stat_str(@statShort)
     dom_heading = report_page.search '#excelReportType'
     dom_table = report_page.search '#excelContent'
