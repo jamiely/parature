@@ -1,6 +1,7 @@
 require 'spec_helper'
 require 'parature'
 require 'vcr'
+require 'time'
 
 describe "a ticket" do
   include Parature
@@ -15,6 +16,11 @@ describe "a ticket" do
     end
   end
 
+  it "has created and updated dates" do
+    @ticket.created.is_a?(Time).should be true
+    @ticket.updated.is_a?(Time).should be true
+  end
+
   it "has time spent records" do
     entry = @ticket.history.first
     entry.id.should_not be nil
@@ -23,6 +29,10 @@ describe "a ticket" do
     entry.new_status.should_not be_empty
     entry.time_spent.should_not be nil
     entry.minutes_spent.is_a?(Numeric).should be true
+  end
+
+  it "knows whether there's been time logged against it" do
+    @ticket.has_time?.should be true
   end
 
   it "has history" do

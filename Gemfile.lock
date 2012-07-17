@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    parature (1.0.0)
+    parature (1.2.1)
       json
       mechanize
       rest-client
