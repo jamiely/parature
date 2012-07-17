@@ -39,6 +39,9 @@ class Ticket
     end if @history.nil?
     @history 
   end
+  def has_time?
+    history.any(&:has_time)
+  end
   def history_having_time
     history.select(&:has_time?)
   end
