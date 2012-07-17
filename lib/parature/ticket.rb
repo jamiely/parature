@@ -34,7 +34,9 @@ class Ticket
     text get_path raw_ticket, 'Ticket_Status.Status.Name'
   end
   def history
-    @history = raw_ticket["ActionHistory"]["History"].collect {|h| HistoryEntry.load_from_parature_hash h} if @history.nil?
+    @history = raw_ticket["ActionHistory"]["History"].collect do |h| 
+      HistoryEntry.load_from_parature_hash self, h
+    end if @history.nil?
     @history 
   end
   def history_having_time

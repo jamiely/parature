@@ -1,6 +1,7 @@
 module Parature
   class HistoryEntry
-    attr_accessor :id, :action_id, :action_name, :action_target, :old_status, :new_status, :time_spent
+    attr_accessor :id, :action_id, :action_name, :action_target, :old_status, 
+      :new_status, :time_spent, :ticket
     def initialize
       time_spent = 0
     end
@@ -33,7 +34,10 @@ module Parature
       csr = action_target['Csr']
       csr.nil? ? nil : csr['Full_Name']['#text']
     end
-    def self.load_from_parature_hash(h)
+    def ticket_id
+      ticket.id
+    end
+    def self.load_from_parature_hash(parent_ticket, h)
       entry = HistoryEntry.new
       entry.id = h['@id']
       entry.action_id = h['Action']['@id']
@@ -42,6 +46,7 @@ module Parature
       entry.new_status = h['New_Status']['Status']['Name']['#text']
       entry.time_spent = h['Time_Spent']
       entry.action_target = h['Action_Target']
+      entry.ticket = parent_ticket
       entry
     end
   end

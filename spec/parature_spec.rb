@@ -2,9 +2,6 @@ require 'spec_helper'
 require 'parature'
 
 describe "the parature client" do
-  before :all do
-    require './spec/vcr_setup.rb'
-  end
   it "can load config" do
     Parature.client.should_not be nil
   end
